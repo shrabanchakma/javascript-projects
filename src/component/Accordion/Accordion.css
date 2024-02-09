@@ -1,3 +1,11 @@
+.wrapper button {
+  background-color: hsl(34, 26%, 20%);
+  color: #fff;
+  font-weight: bold;
+  padding: 0.4rem 0.6rem;
+  border-radius: 1.5rem;
+  margin: 1rem;
+}
 .item {
   width: 400px;
   background-color: rgb(117, 96, 68);
