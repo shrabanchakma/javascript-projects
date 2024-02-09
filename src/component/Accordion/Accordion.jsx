@@ -1,5 +1,6 @@
 import { useState } from "react";
 import data from "./data";
+import "./Accordion.css";
 export default function Accordion() {
   const [selected, setSelected] = useState(null);
 
@@ -17,10 +18,10 @@ export default function Accordion() {
             >
               <h3>{dataItem.question}</h3>
               <span>{selected === dataItem.id ? "-" : "+"}</span>
-              {selected === dataItem.id ? (
-                <div className="answer">{dataItem.answer}</div>
-              ) : null}
             </div>
+            {selected === dataItem.id ? (
+              <div className="answer">{dataItem.answer}</div>
+            ) : null}
           </div>
         ))
       ) : (
