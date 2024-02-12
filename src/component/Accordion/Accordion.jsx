@@ -49,11 +49,6 @@ export default function Accordion() {
               : selected === dataItem.id && (
                   <div className="answer">{dataItem.answer}</div>
                 )}
-
-            {/* {selected === dataItem.id ||
-            multiple.indexOf(dataItem.id) !== -1 ? (
-              <div className="answer">{dataItem.answer}</div>
-            ) : null} */}
           </div>
         ))
       ) : (
