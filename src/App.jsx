@@ -1,4 +1,5 @@
 import "./App.css";
+import ColorGenerator from "./component/ColorGenerator/ColorGenerator";
 import Accordion from "d:/Web Development/practice-test-projects/simple-accordion/src/component/Accordion/accordion";
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <>
       {/* accordion component */}
       <Accordion />
+      <ColorGenerator />
     </>
   );
 }
