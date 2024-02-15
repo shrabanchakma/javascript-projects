@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ColorGenerator() {
   const [color, setColor] = useState("#000000");
-  const [colorType, setColorType] = useState("");
+  const [colorType, setColorType] = useState("hex");
 
   function randomColorUtility(length) {
     return Math.floor(Math.random() * length);
@@ -32,14 +32,18 @@ export default function ColorGenerator() {
     setColor(hexColor);
   }
 
-  function hexToRGB(hex) {
-    hex = hex.replace("#", "");
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    console.log(r, g, b);
-    setColorType(`rgb(${r},${g},${b})`);
+  function generateRandomRgb() {
+    const r = randomColorUtility(256);
+    const g = randomColorUtility(256);
+    const b = randomColorUtility(256);
+
+    setColor(`rgb(${r},${g},${b})`);
   }
+
+  useEffect(() => {
+    colorType === "rgb" ? generateRandomRgb() : generateHexColor();
+    console.log("hi");
+  }, [colorType]);
 
   return (
     <div
@@ -61,7 +65,7 @@ export default function ColorGenerator() {
           justifyContent: "center",
         }}
       >
-        <h1>{colorType}</h1>
+        <h1>{color}</h1>
         <button
           style={{
             padding: "1rem 2rem",
@@ -69,7 +73,18 @@ export default function ColorGenerator() {
             borderRadius: "1.5rem",
             fontWeight: "600",
           }}
-          onClick={generateHexColor}
+          onClick={() => generateHexColor()}
+        >
+          Generate Color
+        </button>
+        <button
+          style={{
+            padding: "1rem 2rem",
+            border: "none",
+            borderRadius: "1.5rem",
+            fontWeight: "600",
+          }}
+          onClick={() => setColorType("hex")}
         >
           Generate Hex Color
         </button>
@@ -80,7 +95,7 @@ export default function ColorGenerator() {
             borderRadius: "1.5rem",
             fontWeight: "600",
           }}
-          onClick={() => hexToRGB(color)}
+          onClick={() => setColorType("rgb")}
         >
           convert to rgb
         </button>
