@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import "./ImageSlider.css";
 export default function ImageSlider({ url, page = "1", limit }) {
   const [images, setImages] = useState([]);
   const [currentSlider, setCurrentSlide] = useState(0);
@@ -21,6 +22,17 @@ export default function ImageSlider({ url, page = "1", limit }) {
     }
   }
 
+  function handlePrev() {
+    setCurrentSlide(
+      currentSlider === 0 ? images.length - 1 : currentSlider - 1
+    );
+  }
+  function handleNext() {
+    setCurrentSlide(
+      currentSlider === images.length - 1 ? 0 : currentSlider + 1
+    );
+  }
+
   console.log(images);
   useEffect(() => {
     if (url !== "") fetchImages(url);
@@ -32,18 +44,40 @@ export default function ImageSlider({ url, page = "1", limit }) {
 
   return (
     <div className="container">
-      <FaArrowAltCircleLeft className="arrow arrow-left" />
+      <FaArrowAltCircleLeft onClick={handlePrev} className="arrow arrow-left" />
       {images && images.length
-        ? images.map((imageItem) => (
+        ? images.map((imageItem, idx) => (
             <img
               key={imageItem.id}
               src={imageItem.download_url}
               alt={imageItem.download_url}
-              className="current-image"
+              className={
+                currentSlider === idx
+                  ? "current-image"
+                  : "current-image hide-current-image "
+              }
             />
           ))
         : null}
-      <FaArrowAltCircleRight className="arrow arrow-right" />
+      <FaArrowAltCircleRight
+        onClick={handleNext}
+        className="arrow arrow-right"
+      />
+      <span className="circle-indicator">
+        {images && images.length
+          ? images.map((_, idx) => (
+              <button
+                key={idx}
+                className={
+                  currentSlider === idx
+                    ? "current-indicator"
+                    : "current-indicator inactive-indicator"
+                }
+                onClick={() => setCurrentSlide(idx)}
+              ></button>
+            ))
+          : null}
+      </span>
     </div>
   );
 }
