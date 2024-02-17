@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-
-export default function ImageSlider({ url, limit }) {
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+export default function ImageSlider({ url, page = "1", limit }) {
   const [images, setImages] = useState([]);
   const [currentSlider, setCurrentSlide] = useState(0);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -8,7 +8,7 @@ export default function ImageSlider({ url, limit }) {
   async function fetchImages(url) {
     try {
       setLoading(true);
-      const response = await fetch(url);
+      const response = await fetch(`${url}?page=${page}&limit=${limit}`);
       const data = await response.json();
 
       if (data) {
@@ -21,6 +21,7 @@ export default function ImageSlider({ url, limit }) {
     }
   }
 
+  console.log(images);
   useEffect(() => {
     if (url !== "") fetchImages(url);
   }, [url]);
@@ -29,5 +30,20 @@ export default function ImageSlider({ url, limit }) {
 
   if (errorMsg) return <div>error occurred !! {errorMsg}</div>;
 
-  return <div>image slider component</div>;
+  return (
+    <div className="container">
+      <FaArrowAltCircleLeft className="arrow arrow-left" />
+      {images && images.length
+        ? images.map((imageItem) => (
+            <img
+              key={imageItem.id}
+              src={imageItem.download_url}
+              alt={imageItem.download_url}
+              className="current-image"
+            />
+          ))
+        : null}
+      <FaArrowAltCircleRight className="arrow arrow-right" />
+    </div>
+  );
 }
